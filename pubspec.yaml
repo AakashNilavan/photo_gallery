@@ -31,6 +31,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cached_network_image: ^3.2.3
+  unsplash_client: ^2.1.0+3
+  bloc: ^8.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
