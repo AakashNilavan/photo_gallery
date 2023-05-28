@@ -18,8 +18,7 @@ class Unsplash {
     )),
   );
 
-  searchImage(String query,int page) async {
-    Response<SearchResults<Photo>> results = await unsplashClient.search.photos(query, page: page,perPage: 5).go();
-
+  Future<Response<SearchResults<Photo>>> searchImage(String query,int page) async {
+    return await unsplashClient.search.photos(query, page: page,perPage: 5).go();
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photo_gallery/bloc/gallery_bloc.dart';
 import 'package:photo_gallery/pages/home_page.dart';
 
 void main() {
@@ -25,7 +27,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const Home(),
+      home: BlocProvider<GalleryBloc>(
+          create: (context) => GalleryBloc(), child: const Home()),
     );
   }
 }

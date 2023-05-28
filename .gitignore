@@ -11,7 +11,9 @@
 migrate_working_dir/
 
 #api_keys
-/lib/api_keys.json
+**/api_keys.json
+
+**/**.freezed.dart
 
 # IntelliJ related
 *.iml
