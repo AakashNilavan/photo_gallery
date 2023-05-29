@@ -1,7 +1,6 @@
 import 'package:unsplash_client/unsplash_client.dart';
 
 class Unsplash {
-
   static final Unsplash _unsplash = Unsplash._internal();
 
   factory Unsplash() {
@@ -18,7 +17,14 @@ class Unsplash {
     )),
   );
 
-  Future<Response<SearchResults<Photo>>> searchImage(String query,int page) async {
-    return await unsplashClient.search.photos(query, page: page,perPage: 5).go();
+  Future<Response<SearchResults<Photo>>> searchImage(
+      String query, int page) async {
+    return await unsplashClient.search
+        .photos(query, page: page, perPage: 5)
+        .go();
+  }
+
+  Future<Response<Photo>> getPhotoDetail(String id) async {
+    return await unsplashClient.photos.get(id).go();
   }
 }

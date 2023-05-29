@@ -4,7 +4,8 @@ import 'package:photo_gallery/bloc/gallery_bloc.dart';
 import 'package:photo_gallery/pages/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(BlocProvider<GalleryBloc>(
+      create: (context) => GalleryBloc(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,8 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<GalleryBloc>(
-          create: (context) => GalleryBloc(), child: const Home()),
+      home: const Home(),
     );
   }
 }

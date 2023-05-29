@@ -10,31 +10,39 @@ part 'gallery_state.dart';
 
 class GalleryBloc extends Bloc<GalleryEvent, GalleryState> {
   GalleryBloc() : super(GalleryState.initial()) {
-    on<GalleryEvent>((event, emit) async {
+    on<GetSearchPhoto>((event, emit) async {
+      if (event.clearPrev) {
+        emit(GalleryState(loading: true, showPhotoDetail: false));
+      } else {
+        emit(state.copyWith(loading: true, showPhotoDetail: false));
+      }
 
-        emit(const GalleryState(loading: true));
+      final result = await Unsplash().searchImage(event.query, event.page);
 
-        final result = await Unsplash().searchImage(event.query, event.page);
-
-        if(result.hasData){
-          print(result.data);
-          emit(
-            state.copyWith(
-              loading: false,
-              currentPage: event.page,
-              results: result.data,
-            )
-          );
-        }
-        else{
-          emit(
-              state.copyWith(
-                loading: false,
-                currentPage: event.page,
-                error: 'Error Occurred : ${result.statusCode}'
-              )
-          );
-        }
+      if (result.hasData) {
+        emit(state.copyWith(
+            loading: false,
+            currentPage: event.page,
+            query: event.query,
+            total: result.data!.total,
+            searchResults: (state.searchResults ?? []) + result.data!.results,
+            showPhotoDetail: false));
+      } else {
+        emit(state.copyWith(
+            loading: false,
+            currentPage: event.page,
+            query: event.query,
+            error: 'Error Occurred : ${result.statusCode}',
+            showPhotoDetail: false));
+      }
+    });
+    on<GetPhotoDetail>((event, emit) async {
+      final result = await Unsplash().getPhotoDetail(event.id);
+      if (result.hasData) {
+        emit(state.copyWith(photoDetails: result.data, showPhotoDetail: true));
+      } else {
+        emit(state.copyWith(error: 'Error Occurred : ${result.statusCode}'));
+      }
     });
   }
 }
